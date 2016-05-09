@@ -4,11 +4,14 @@
 // Main
 // --------------------------
 var inputFiles = [
-    'butterfly.riot',
-    'butterfly_106.lif',
-    'gol.riot',
-    'p69060p5h2v0gun.rle',
-    'random_105.lif',
+    'patterns/butterfly.riot',
+    'patterns/butterfly_106.lif',
+    'patterns/gol.riot',
+    'patterns/p69060p5h2v0gun.rle',
+    'patterns/random_105.lif',
+    'patterns/bunnies.rle',
+    'patterns/bunnies10.rle',
+    'patterns/iwona.rle',
 ]
 
 // (function() {
@@ -157,6 +160,7 @@ var inputFiles = [
         var renderTime = (_.sum(renderTimes) / renderTimes.length) || 0;
         document.getElementById('metadata').innerHTML = `x: ${_.round(translation.x, 2)} y: ${_.round(translation.y, 2)} z: ${_.round(zoomLevel,2)}
 Update frequency: ${msStr}
+Iteration: ${gol._iterationNumber}
 Render time: ${_.round(renderTime,2)}ms (${_.round(1000/(renderTime || 1),2)}fps)
         `
     }
