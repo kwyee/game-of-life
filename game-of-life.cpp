@@ -3,9 +3,10 @@
 #include <set>
 #include <string>
 #include <iostream>
-#include <fstream>
-#include <regex>
-#include <limits.h>  // CHAR_BIT
+
+#include <thread>
+#include <future>
+
 using namespace std;
 
 
@@ -79,8 +80,6 @@ void _countUp(set<Cell> &neighborCounts, const int64_t x, const int64_t y) {
   }
 }
 
-#include <thread>
-#include <future>
 
 void updateSurviving(set<Cell> *alive, const set<Cell> &neighborCounts) {
   set<Cell> surviving;
@@ -144,8 +143,8 @@ int main(int argc, const char** argv) {
   // <x1> <y1>
   // <x2> <y2>
   //
-  // Use a preprocessor to coerece the format
-  // (e.g. cat gol.riot | perl -e 'print map { $_ =~ s/[^0-9-. ]//g;"$_\n" } <STDIN>'  | ./game-of-life)
+  // Use a preprocessor to coerece the format:
+  // (e.g. cat patterns/gol.riot | perl -e 'print map { $_ =~ s/[^0-9-. ]//g;"$_\n" } <STDIN>'  | ./game-of-life)
   set<Cell> alive(
     (std::istream_iterator<Cell>(cin)),
     (std::istream_iterator<Cell>())
