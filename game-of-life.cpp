@@ -9,6 +9,49 @@
 
 using namespace std;
 
+#include <sstream>
+#include <bitset>
+std::string bitsOf(int64_t x) {
+  std::bitset<64> bitset64{(uint64_t)x};
+  std::stringstream ss;
+  ss << bitset64;
+  return ss.str();
+}
+
+// http://chessprogramming.wikispaces.com/De+Bruijn+sequence
+// static const int MultiplyDeBruijnBitPosition[64] =
+// {
+//   0,1,2,4,8,17,34,5,11,23,47,31,63,62,61,59,55,46,29,58,53,43,22,44,24,49,35,7,15,30,60,57,51,38,12,25,50,36,9,18,37,10,21,42,20,41,19,39,14,28,56,48,33,3,6,13,27,54,45,26,52,40,16,32
+// };
+// http://stackoverflow.com/q/14086854/4026250
+uint64_t firstBit(uint64_t v)
+{
+    static const char index64[64] = {
+    63,  0, 58,  1, 59, 47, 53,  2,
+    60, 39, 48, 27, 54, 33, 42,  3,
+    61, 51, 37, 40, 49, 18, 28, 20,
+    55, 30, 34, 11, 43, 14, 22,  4,
+    62, 57, 46, 52, 38, 26, 32, 41,
+    50, 36, 17, 19, 29, 10, 13, 21,
+    56, 45, 25, 31, 35, 16,  9, 12,
+    44, 24, 15,  8, 23,  7,  6,  5  };
+
+    static const uint64_t debruijn64 = 0x07EDD5E59A4E28C2ULL;
+
+    return index64[((v & -v) * debruijn64) >> 58];
+}
+
+// Reflective right rotation.
+// http://stackoverflow.com/a/776523/4026250
+inline uint64_t rotr(uint64_t n, unsigned char bits) {
+  const unsigned int mask = (CHAR_BIT*sizeof(n)-1);
+  // assert ( (bits<=mask) && "rotate by type width or more" );
+  bits &= mask;  // avoid undef behaviour with NDEBUG.  0 overhead for most types / compilers
+  return (n>>bits) | (n<<( (-bits)&mask ));
+}
+
+
+
 
 // TODO(kwyee): Scale:
 // Split dijointed groups but have some way to detect/merge them
@@ -33,7 +76,24 @@ class Cell {
     Cell(int64_t x, int64_t y) : x(x), y(y) {}
 
     void swap(const Cell& a) { x = a.x; y = a.y; }
-    bool operator< (const Cell& a) const { return x<a.x || (x==a.x && y<a.y); }
+    // bool operator< (const Cell& a) const { return x<a.x || (x==a.x && y<a.y); }
+    bool operator< (const Cell& a) const {
+      if (a.x == x && a.y == y) {
+        return false;
+      }
+
+      // Find the first bit where this->x and a.x OR this->y and a.y differ.
+      uint64_t diffLevel = min(firstBit(x ^ a.x), firstBit(y ^ a.y));
+      return cellId(diffLevel) < a.cellId(diffLevel);
+    }
+  public:
+    inline unsigned char cellId(const unsigned char level) const {
+      uint64_t mask4level = (((uint64_t)1) << level);
+      return (unsigned char)(
+        rotr(((uint64_t)x) & mask4level, level-1) |
+        rotr(((uint64_t)y) & mask4level, level));
+    }
+
 };
 
 // ostream& operator<<(ostream &strm, const Cell &a) { return strm << a.x << ' ' << a.y << " (" << (int)a.neighborCount << ')'; }
