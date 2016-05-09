@@ -3,16 +3,6 @@
 // --------------------------
 // Main
 // --------------------------
-var inputFiles = [
-    'patterns/butterfly.riot',
-    'patterns/butterfly_106.lif',
-    'patterns/gol.riot',
-    'patterns/p69060p5h2v0gun.rle',
-    'patterns/random_105.lif',
-    'patterns/bunnies.rle',
-    'patterns/bunnies10.rle',
-    'patterns/iwona.rle',
-]
 
 // (function() {
 
@@ -262,6 +252,16 @@ Render time: ${_.round(renderTime,2)}ms (${_.round(1000/(renderTime || 1),2)}fps
 
     // Load inputFiles and then render the first file.
     // These input files will also be used as "stamps"
+    var inputFiles = [
+        'patterns/gol.riot',
+        'patterns/butterfly.riot',
+        'patterns/butterfly_106.lif',
+        'patterns/random_105.lif',
+        'patterns/p69060p5h2v0gun.rle',
+        'patterns/bunnies.rle',
+        'patterns/bunnies10.rle',
+        'patterns/iwona.rle',
+    ]
     var lastLoadedInput2d = []
     Promise.all(inputFiles.map(function(filename) {
         return $.ajax({
@@ -282,7 +282,16 @@ Render time: ${_.round(renderTime,2)}ms (${_.round(1000/(renderTime || 1),2)}fps
     }))
     .then(function(convertedInputs) {
         if (_.size(gol._alive) == 0) {
-            lastLoadedInput2d = convertedInputs[0];
+            var urlParams = window.location.search
+            .replace(/^\?/, '')
+            .split('&')
+            .reduce(function(accum, v) {
+                var kv = v.split('=');
+                accum[kv[0]] = kv[1];
+                return accum;
+            }, {});
+            var index = Math.max(inputFiles.indexOf(urlParams.pattern || ''), 0);
+            lastLoadedInput2d = convertedInputs[index];
             gol.reset(lastLoadedInput2d);
 
             var maxX = Math.max.apply(Math, _.map(lastLoadedInput2d, function(p) { return p[0] }))

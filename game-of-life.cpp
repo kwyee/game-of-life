@@ -7,6 +7,8 @@
 #include <thread>
 #include <future>
 
+#include <libconfig.h++>
+
 using namespace std;
 
 
@@ -137,33 +139,38 @@ void tick(set<Cell> &alive) {
 // Main
 // -------
 int main(int argc, const char** argv) {
-
   // Set of alive cell, read from stdin.
   // Format is:
   // <x1> <y1>
   // <x2> <y2>
   //
   // Use a preprocessor to coerece the format:
-  // (e.g. cat patterns/gol.riot | perl -e 'print map { $_ =~ s/[^0-9-. ]//g;"$_\n" } <STDIN>'  | ./game-of-life)
+  // (e.g. ./convert.js --pattern=patterns/gol.riot | ./game-of-life)
   set<Cell> alive(
     (std::istream_iterator<Cell>(cin)),
     (std::istream_iterator<Cell>())
   );
 
-  int64_t NUM_ITERATIONS = 1000;
-  int64_t PRINT_ITERATIONS = 100;
+  cout << "Iteration: " << 0 << endl << alive << endl;
 
-  int64_t iteration = 1;
-  cout << "Iteration: " << (iteration-1) << endl << alive << endl;
-  for (; iteration <= NUM_ITERATIONS; ++iteration) {
+  // Read config from game-of-life.cfg
+  int num_iterations = 0;
+  int print_iterations = 100;
+  libconfig::Config config;
+  config.readFile("game-of-life.cfg");
+  config.lookupValue("num_iterations", num_iterations);
+  config.lookupValue("print_iterations", print_iterations);
+
+  int iteration = 1;
+  for (; iteration <= num_iterations; ++iteration) {
     tick(alive);
-    if (iteration % PRINT_ITERATIONS == 0) {
+    if (iteration % print_iterations == 0) {
       cout << "Iteration: " << iteration << endl << alive << endl;
     }
   }
 
   // Trailing print, to dump the last state if we havent already
-  if ((iteration-1) % PRINT_ITERATIONS != 0) {
+  if ((iteration-1) % print_iterations != 0) {
     cout << "Iteration: " << (iteration-1) << endl << alive << endl;
   }
 
