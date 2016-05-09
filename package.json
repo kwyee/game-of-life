@@ -1,0 +1,24 @@
+{
+  "name": "game-of-life",
+  "version": "1.0.0",
+  "description": "http://www.conwaylife.com/wiki/Main_Page",
+  "main": "convert.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kwyee/game-of-life.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/kwyee/game-of-life/issues"
+  },
+  "private": true,
+  "homepage": "https://github.com/kwyee/game-of-life#readme",
+  "devDependencies": {
+    "lodash": "^4.12.0",
+    "minimist": "^1.2.0"
+  }
+}

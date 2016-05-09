@@ -145,7 +145,7 @@ int main(int argc, const char** argv) {
   // <x2> <y2>
   //
   // Use a preprocessor to coerece the format:
-  // (e.g. cat patterns/gol.riot | perl -e 'print map { $_ =~ s/[^0-9-. ]//g;"$_\n" } <STDIN>'  | ./game-of-life)
+  // (e.g. ./convert.js --pattern=patterns/gol.riot | ./game-of-life)
   set<Cell> alive(
     (std::istream_iterator<Cell>(cin)),
     (std::istream_iterator<Cell>())
