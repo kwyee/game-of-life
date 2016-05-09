@@ -1,0 +1,127 @@
+<html>
+<style type="text/css">
+html, body, pre { padding: 0; margin: 0;  -webkit-user-select: none; width: 100%; height: 100%;}
+body {font-family: "HelveticaNeue-Light","Helvetica Neue Light","Helvetica Neue",Helvetica,Arial,"Lucida Grande",sans-serif; }
+    canvas {
+        width: 100%;
+        height: 100%;
+        cursor: default;
+        background-color: black;
+    }
+
+    input[type="button"] {
+        border: 1px solid #ccc;
+        border-radius: 2px;
+        padding: 2px 4px;
+        margin: 2px 0;
+        background-color: rgba(255, 255, 255, 0.9);
+    }
+
+    input[type="range"] {
+        -webkit-appearance: none;
+        border-radius: 8px;
+        margin-top: -2px;
+        height: 7px;
+        background-color: #fff;
+        background: -webkit-linear-gradient(left, #000000 0%,#ffffff 100%);
+        position: relative;
+        top: -2px;
+    }
+
+    .control {
+        color: white;
+        padding: 4px;
+        -webkit-backdrop-filter: blur(8px);
+    }
+    .nw {
+        position: absolute;
+        top: 0;
+        left: 0;
+    }
+
+    .ne {
+        position: absolute;
+        top: 0;
+        right: 0;
+        text-align: right;
+    }
+
+    .sw {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+    }
+
+    #help, #metadata {
+        pointer-events: none;
+    }
+
+    .control .stamps {
+        position: absolute;
+        display: inline-block;
+        top: 100%
+    }
+    .control .stamps .stamp {
+        width: 0px;
+        display: block;
+        transition: all 0.3s ease-out;
+        cursor: pointer;
+        background-color: #aaa;
+    }
+    .control .stamps .stamp.selected {
+        width: 25px;
+    }
+    .control .stamps:hover .stamp,
+    .control .stamps:hover .stamp.selected {
+        border: 1px solid #333;
+        width: 50px;
+    }
+
+    .control .stamps .stamp:hover {
+        border-color: #ccc;
+        background-color: #ccc;
+    }
+
+    .control .stamps .stamp.selected,
+    .control .stamps .stamp.selected:hover {
+        border: 1px solid #82C4F4 !important;
+        background-color: #82C4F4;
+        z-index: 100;
+    }
+
+</style>
+<title>Game of Life</title>
+<body>
+<canvas id='canvas'></canvas>
+<div class="control nw">
+    <label for='simSpeed'>Sim speed</label>
+    <input id='simSpeed' type="range" name="simSpeed" min="0" max="5" value='0' />
+    <br>
+    <input id='reset' type="button" name="reset" value="Reset" /> <input id='clear' type="button" name="clear" value="Clear" /> <input id='random' type="button" name="random" value="New Random" />
+    <br>
+    <input id='print' type="button" name="print" value="Print to console.log" />
+    <input id='jump' type="button" name="jump" value="Jump to cluster" />
+    <br>
+    <div class='stamps'></div>
+</div>
+<div class="control ne">
+    <pre id='metadata'></pre>
+</div>
+<div class="control sw">
+    <pre id=help>- LMB + drag (move the map or WASD)
+- Mousewheel (zoom)
+- + and - or [ and ] (adjust sim speed)
+- Space (pause)
+- LMB (toggle cells alive/dead)
+- Ctrl or &#8984; + LMB (stamp a pattern)
+- Shift + LMB + drag (paint alive cells)
+- . (step once)</pre>
+
+</div>
+</body>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.3/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.11.2/lodash.min.js" ></script>
+<script src="./game-of-life-logic.js" ></script>
+<script src="./game-of-life.js" ></script>
+
+</html>

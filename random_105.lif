@@ -1,0 +1,73 @@
+#Life 1.05
+#D Name: 67P5H1V1
+#D Author: Nicolay Beluchenko
+#D The smallest known c/5 diagonal spaceship. Found in July 2006.
+#D www.conwaylife.com/wiki/index.php?title=67P5H1V1
+#N
+#P -70 -35
+.....***
+....*...**
+...**...*
+..*.....*
+.*.**....**
+**..*......*
+...**..*
+...**.**
+....*
+.....*****
+......*..***..**
+.........*.**..*.**
+.........*...*.*..*
+..........*****.....*
+.........*..*..*.....*
+.....................*
+................***
+................*
+...............*
+................**
+.
+.
+.
+#Life 1.05
+#D Name: Crab
+#D Author: Jason Summers
+#D The smallest known diagonal spaceship other than the glider. It was discovere
+#D d in September 2000.
+#D www.conwaylife.com/wiki/index.php?title=Crab
+#N
+#P -6 -6
+........**
+.......**
+.........*
+...........**
+..........*
+.
+.........*..*
+.**.....**
+**.....*
+..*....*.*
+....**..*
+....**
+.
+.
+.
+#Life 1.05
+#D Name: Hivenudger
+#D Author: Hartmut Holzwart
+#D A pre-beehive escorted by four lightweight spaceships.
+#D www.conwaylife.com/wiki/index.php?title=Hivenudger
+#N
+#P -6 -6
+****.....*..*
+*...*...*
+*.......*...*
+.*..*...****
+.
+.....**
+.....**
+.....**
+.
+.*..*...****
+*.......*...*
+*...*...*
+****.....*..*
