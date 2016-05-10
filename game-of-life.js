@@ -126,8 +126,22 @@
 
 
     function renderGoL(ctx, gol, ts) {
+        var bounds = {
+            minX: ((-ctx.canvas.width/2)/zoomLevel - translation.x) / PT_SIZE,
+            minY: ((-ctx.canvas.height/2)/zoomLevel - translation.y) / PT_SIZE,
+        }
+        bounds.maxX = bounds.minX + Math.ceil(ctx.canvas.width / zoomLevel / PT_SIZE) + 1;
+        bounds.maxY = bounds.minY + Math.ceil(ctx.canvas.height / zoomLevel / PT_SIZE) + 1;
+
         _.forEach(gol._alive, function(rowPts, y) {
             _.forEach(rowPts, function(aliveTS, x) {
+                if (x < bounds.minX ||
+                    y < bounds.minY ||
+                    x > bounds.maxX ||
+                    y > bounds.maxY) {
+                    return;
+                }
+
                 if (ts > aliveTS + FADE_DURATION) {
                     ctx.globalAlpha = 1
                 } else {
