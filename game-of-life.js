@@ -4,6 +4,31 @@
 // Main
 // --------------------------
 
+function hsv2rgb(h, s, v) {
+    var c = v * s;
+    var h360 = h * 360;
+    var x = c * (1- Math.abs( (h360 / 60 ) % 2 - 1));
+    var m = v - c;
+
+    var result = [];
+    if      (0   <= h360 && h360 < 60 ) { result = [c, x, 0]; }
+    else if (60  <= h360 && h360 < 120) { result = [x, c, 0]; }
+    else if (120 <= h360 && h360 < 180) { result = [0, c, x]; }
+    else if (180 <= h360 && h360 < 240) { result = [0, x, c]; }
+    else if (240 <= h360 && h360 < 300) { result = [x, 0, c]; }
+    else if (300 <= h360 && h360 < 360) { result = [c, 0, x]; }
+
+    result[0] = (result[0] + m) * 255;
+    result[1] = (result[1] + m) * 255;
+    result[2] = (result[2] + m) * 255;
+    return result
+};
+function hueShift(hsv, shift) {
+    hsv[0] *= shift;
+    hsv[0] = hsv[0] - Math.floor(hsv[0]); // Wrap around by getting the fractional part
+    return hsv;
+};
+
 // (function() {
 
     var gol = new GameOfLife();
@@ -133,6 +158,8 @@
         bounds.maxX = bounds.minX + Math.ceil(ctx.canvas.width / zoomLevel / PT_SIZE) + 1;
         bounds.maxY = bounds.minY + Math.ceil(ctx.canvas.height / zoomLevel / PT_SIZE) + 1;
 
+        var psychedelic = document.getElementById('psychedelic').checked;
+
         _.forEach(gol._alive, function(rowPts, y) {
             _.forEach(rowPts, function(aliveTS, x) {
                 if (x < bounds.minX ||
@@ -150,6 +177,16 @@
                     alpha = Math.min(alpha + 0.1, 1); // ensure min
                     ctx.globalAlpha = alpha;
                 }
+
+
+                if (psychedelic) {
+                    var color = hueShift([180, 1, 1], (Math.sin(aliveTS) + 1)/2)
+                    color = hsv2rgb.apply(null, color);
+                    color = color.map(Math.floor);
+                    color = color.join(',');
+                    ctx.fillStyle = `rgba(${color},1)`
+                }
+
                 ctx.fillRect(x*PT_SIZE+PADDING, y*PT_SIZE+PADDING, PT_SIZE-2*PADDING, PT_SIZE-2*PADDING);
             })
         });
