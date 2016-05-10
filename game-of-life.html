@@ -2,6 +2,7 @@
 <style type="text/css">
 html, body, pre { padding: 0; margin: 0;  -webkit-user-select: none; width: 100%; height: 100%;}
 body {font-family: "HelveticaNeue-Light","Helvetica Neue Light","Helvetica Neue",Helvetica,Arial,"Lucida Grande",sans-serif; }
+    label { font-size: 0.8rem; }
     canvas {
         width: 100%;
         height: 100%;
@@ -98,7 +99,10 @@ body {font-family: "HelveticaNeue-Light","Helvetica Neue Light","Helvetica Neue"
     <label for='simSpeed'>Sim speed</label>
     <input id='simSpeed' type="range" name="simSpeed" min="0" max="5" value='0' />
     <br>
-    <input id='reset' type="button" name="reset" value="Reset" /> <input id='clear' type="button" name="clear" value="Clear" /> <input id='random' type="button" name="random" value="New Random" />
+    <input id='reset' type="button" name="reset" value="Reset" />
+    <input id='clear' type="button" name="clear" value="Clear" />
+    <input id='random' type="button" name="random" value="New Random" />
+    <input id='psychedelic' type="checkbox" name="psychedelic" value="Color" /><label for='psychedelic'>Color</label>
     <br>
     <input id='print' type="button" name="print" value="Print to console.log" />
     <input id='jump' type="button" name="jump" value="Jump to cluster" />
