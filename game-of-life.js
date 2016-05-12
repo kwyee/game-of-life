@@ -180,7 +180,7 @@ function hueShift(hsv, shift) {
 
 
                 if (psychedelic) {
-                    var color = hueShift([180, 1, 1], (Math.sin(aliveTS) + 1)/2)
+                    var color = hueShift([180, 1, 1], (Math.sin(aliveTS) + 1)/1000)
                     color = hsv2rgb.apply(null, color);
                     color = color.map(Math.floor);
                     color = color.join(',');
